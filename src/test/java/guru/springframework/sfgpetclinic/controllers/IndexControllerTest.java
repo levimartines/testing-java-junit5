@@ -1,7 +1,9 @@
 package guru.springframework.sfgpetclinic.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import guru.springframework.sfgpetclinic.controllers.exceptions.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,7 +26,6 @@ class IndexControllerTest {
     @Test
     @DisplayName("Test oops handler")
     void oopsHandler() {
-        assertEquals("notimplemented", controller.oopsHandler(),
-            () -> "Using lambda to create a message");
+        assertThrows(NotFoundException.class, () -> controller.oopsHandler());
     }
 }

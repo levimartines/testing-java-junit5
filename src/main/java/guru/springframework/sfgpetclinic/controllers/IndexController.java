@@ -1,5 +1,7 @@
 package guru.springframework.sfgpetclinic.controllers;
 
+import guru.springframework.sfgpetclinic.controllers.exceptions.NotFoundException;
+
 public class IndexController {
 
     public String index() {
@@ -7,6 +9,6 @@ public class IndexController {
     }
 
     public String oopsHandler() {
-        return "notimplemented";
+        throw new NotFoundException("Index not found");
     }
 }
