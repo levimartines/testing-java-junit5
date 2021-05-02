@@ -1,5 +1,6 @@
 package guru.springframework.sfgpetclinic.controllers;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTimeout;
@@ -30,6 +31,8 @@ class IndexControllerTest {
     @DisplayName("Test Proper view name is returned for index page")
     void index() {
         assertEquals("index", controller.index(), "Wrong view returned");
+
+        assertThat(controller.index()).isEqualTo("index");
     }
 
     @Test
