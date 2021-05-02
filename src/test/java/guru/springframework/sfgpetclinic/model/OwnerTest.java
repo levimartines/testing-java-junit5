@@ -6,12 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 @Disabled
-@Tag("model")
-class OwnerTest {
+class OwnerTest implements ModelTest {
 
     @Test
     void dependentAssertions() {

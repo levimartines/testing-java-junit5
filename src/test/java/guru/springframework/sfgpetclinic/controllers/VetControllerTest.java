@@ -10,11 +10,9 @@ import java.util.HashSet;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-@Tag("controller")
-class VetControllerTest {
+class VetControllerTest implements ControllerTest {
 
     VetController controller;
     SpecialityMapService specialityService;
