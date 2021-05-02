@@ -4,7 +4,6 @@ import guru.springframework.sfgpetclinic.model.Speciality;
 import guru.springframework.sfgpetclinic.model.Vet;
 import guru.springframework.sfgpetclinic.services.SpecialtyService;
 import guru.springframework.sfgpetclinic.services.VetService;
-
 import java.util.Set;
 
 public class VetMapService extends AbstractMapService<Vet, Long> implements VetService {
