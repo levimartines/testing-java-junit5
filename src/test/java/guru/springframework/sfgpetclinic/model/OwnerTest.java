@@ -7,8 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-@Disabled
 class OwnerTest implements ModelTest {
 
     @Test
@@ -27,5 +28,11 @@ class OwnerTest implements ModelTest {
                 () -> assertEquals("555-5555", owner.getTelephone(), "Telephone didn't match"))
         );
         assertThat(owner.getCity(), is("Sorocaba"));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"Parametrized", "Test"})
+    void testValueSource(String valueSource) {
+        System.out.println(valueSource);
     }
 }
