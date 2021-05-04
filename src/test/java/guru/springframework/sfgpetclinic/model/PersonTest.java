@@ -5,7 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
 
 class PersonTest implements ModelTest {
 
@@ -18,10 +20,10 @@ class PersonTest implements ModelTest {
             () -> assertEquals("Ferreira", person.getLastName(), "Last name failed"));
     }
 
-    @RepeatedTest(value = 10, name = "{displayName} : {currentRepetition} of {totalRepetitions}")
+    @RepeatedTest(value = 10, name = "{displayName}")
     @DisplayName("Repeated Test")
-    void myRepeatedTest() {
-        System.out.println("My repeated test");
+    void myRepeatedTestWithDI(TestInfo testInfo, RepetitionInfo repetitionInfo) {
+        System.out.println(testInfo.getDisplayName() + ": " + repetitionInfo.getCurrentRepetition());
     }
 
 }
