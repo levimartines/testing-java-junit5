@@ -69,7 +69,7 @@ class OwnerTest implements ModelTest {
         System.out.println("Name: " + stateName + ", val1 : " + val1 + ", val2: " + val2);
     }
 
-    @DisplayName("Method Provieder Test")
+    @DisplayName("Method Provider Test")
     @ParameterizedTest(name = "{displayName} - [{index}]")
     @MethodSource("getArgs")
     void fromMethodTest(String stateName, int val1, int val2) {
