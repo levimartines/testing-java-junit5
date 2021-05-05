@@ -5,10 +5,11 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.jupiter.api.Disabled;
+import guru.springframework.sfgpetclinic.model.enums.OwnerType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class OwnerTest implements ModelTest {
@@ -36,5 +37,12 @@ class OwnerTest implements ModelTest {
     @ValueSource(strings = {"Parametrized", "Test"})
     void testValueSource(String valueSource) {
         System.out.println(valueSource);
+    }
+
+    @DisplayName("ENUM Test")
+    @ParameterizedTest(name = "{displayName} - [{index}] {argumentsWithNames}")
+    @EnumSource(OwnerType.class)
+    void enumTest(OwnerType ownerType) {
+        System.out.println(ownerType);
     }
 }
