@@ -6,12 +6,15 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import guru.springframework.sfgpetclinic.model.enums.OwnerType;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class OwnerTest implements ModelTest {
@@ -59,11 +62,25 @@ class OwnerTest implements ModelTest {
         System.out.println("Name: " + stateName + ", val1 : " + val1 + ", val2: " + val2);
     }
 
-
     @DisplayName("CSV File Test")
     @ParameterizedTest(name = "{displayName} - [{index}] {argumentsWithNames}")
     @CsvFileSource(resources = "/data.csv", numLinesToSkip = 1)
     void csvFileTest(String stateName, int val1, int val2) {
         System.out.println("Name: " + stateName + ", val1 : " + val1 + ", val2: " + val2);
+    }
+
+    @DisplayName("Method Provieder Test")
+    @ParameterizedTest(name = "{displayName} - [{index}]")
+    @MethodSource("getArgs")
+    void fromMethodTest(String stateName, int val1, int val2) {
+        System.out.println("Name: " + stateName + ", val1 : " + val1 + ", val2: " + val2);
+    }
+
+    static Stream<Arguments> getArgs() {
+        return Stream.of(
+            Arguments.of("A", 9, 99),
+            Arguments.of("Random", 1, 111),
+            Arguments.of("String", 2, 222)
+        );
     }
 }
