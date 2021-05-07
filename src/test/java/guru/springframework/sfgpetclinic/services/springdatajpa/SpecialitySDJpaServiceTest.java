@@ -1,5 +1,7 @@
 package guru.springframework.sfgpetclinic.services.springdatajpa;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -34,10 +36,18 @@ class SpecialitySDJpaServiceTest {
     }
 
     @Test
+    void delete() {
+        Speciality speciality = new Speciality("dogs");
+        service.delete(speciality);
+
+        verify(repository).delete(any(Speciality.class));
+    }
+
+    @Test
     void deleteById() {
         service.deleteById(1L);
         service.deleteById(1L);
-        verify(repository, times(2)).deleteById(1L);
+        verify(repository, times(2)).deleteById(anyLong());
         verify(repository, never()).deleteById(2L);
     }
 }
