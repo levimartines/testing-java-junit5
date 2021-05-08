@@ -1,7 +1,10 @@
 package guru.springframework.sfgpetclinic.services.springdatajpa;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -9,8 +12,9 @@ import static org.mockito.Mockito.when;
 
 import guru.springframework.sfgpetclinic.model.Speciality;
 import guru.springframework.sfgpetclinic.repositories.SpecialtyRepository;
+import java.util.Arrays;
 import java.util.Optional;
-import org.junit.jupiter.api.Assertions;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,13 +30,32 @@ class SpecialitySDJpaServiceTest {
     @InjectMocks
     SpecialitySDJpaService service;
 
+
+    @Test
+    void findAll() {
+        Speciality speciality = new Speciality("dogs");
+        Speciality speciality2 = new Speciality("cats");
+
+        // giver
+        given(repository.findAll()).willReturn(Arrays.asList(speciality, speciality2));
+
+        // when
+        Set<Speciality> specialities = service.findAll();
+
+        // then
+        assertEquals(2, specialities.size());
+        then(repository).should(times(1)).findAll();
+        then(repository).shouldHaveNoMoreInteractions();
+    }
+
+
     @Test
     void findById() {
         Speciality speciality = new Speciality("dogs");
         when(repository.findById(1L)).thenReturn(Optional.of(speciality));
 
         Speciality foundSpeciality = service.findById(1L);
-        Assertions.assertEquals("dogs", foundSpeciality.getDescription());
+        assertEquals("dogs", foundSpeciality.getDescription());
     }
 
     @Test
