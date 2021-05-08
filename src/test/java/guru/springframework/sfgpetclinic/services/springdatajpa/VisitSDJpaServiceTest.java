@@ -1,9 +1,10 @@
 package guru.springframework.sfgpetclinic.services.springdatajpa;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 
 import guru.springframework.sfgpetclinic.model.Visit;
 import guru.springframework.sfgpetclinic.repositories.VisitRepository;
@@ -11,7 +12,6 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.Set;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -29,27 +29,23 @@ class VisitSDJpaServiceTest {
 
     @Test
     void findAll() {
-
-        Visit visit = new Visit();
-        Visit visit2 = new Visit();
-        Visit visit3 = new Visit();
-        when(repository.findAll()).thenReturn(Arrays.asList(visit, visit2, visit3));
+        given(repository.findAll()).willReturn(Arrays.asList(new Visit(), new Visit()));
 
         Set<Visit> visits = service.findAll();
-        Assertions.assertEquals(3, visits.size());
 
-        verify(repository).findAll();
+        assertEquals(2, visits.size());
+        then(repository).should().findAll();
     }
 
     @Test
     void findById() {
         Visit visit = new Visit(1L, LocalDate.now());
-        when(repository.findById(1L)).thenReturn(Optional.of(visit));
+        given(repository.findById(1L)).willReturn(Optional.of(visit));
 
         Visit foundVisit = service.findById(1L);
-        Assertions.assertEquals(1L, foundVisit.getId());
 
-        verify(repository).findById(anyLong());
+        assertEquals(1L, foundVisit.getId());
+        then(repository).should().findById(anyLong());
     }
 
     @Test
@@ -57,7 +53,7 @@ class VisitSDJpaServiceTest {
         Visit visit = new Visit(null, LocalDate.now());
 
         service.save(visit);
-        verify(repository).save(any());
+        then(repository).should().save(any(Visit.class));
     }
 
     @Test
@@ -65,12 +61,12 @@ class VisitSDJpaServiceTest {
         Visit visit = new Visit(1L, LocalDate.now());
         service.delete(visit);
 
-        verify(repository).delete(any(Visit.class));
+        then(repository).should().delete(any(Visit.class));
     }
 
     @Test
     void deleteById() {
         service.deleteById(1L);
-        verify(repository).deleteById(anyLong());
+        then(repository).should().deleteById(anyLong());
     }
 }
