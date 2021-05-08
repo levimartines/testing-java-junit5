@@ -1,6 +1,7 @@
 package guru.springframework.sfgpetclinic.services.springdatajpa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
@@ -68,5 +69,14 @@ class VisitSDJpaServiceTest {
     void deleteById() {
         service.deleteById(1L);
         then(repository).should().deleteById(anyLong());
+    }
+
+    @Test
+    void doThrow() {
+        // Mockito.doThrow(new RuntimeException("Boooom!")).when(repository).delete(any());
+        given(repository.findById(4L)).willThrow(new RuntimeException("Boooom!"));
+
+        assertThrows(RuntimeException.class, () -> repository.findById(4L));
+        then(repository).should().findById(anyLong());
     }
 }
