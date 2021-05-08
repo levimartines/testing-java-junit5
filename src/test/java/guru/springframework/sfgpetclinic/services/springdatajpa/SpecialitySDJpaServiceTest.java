@@ -5,10 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import guru.springframework.sfgpetclinic.model.Speciality;
 import guru.springframework.sfgpetclinic.repositories.SpecialtyRepository;
@@ -33,11 +30,9 @@ class SpecialitySDJpaServiceTest {
 
     @Test
     void findAll() {
-        Speciality speciality = new Speciality("dogs");
-        Speciality speciality2 = new Speciality("cats");
-
-        // giver
-        given(repository.findAll()).willReturn(Arrays.asList(speciality, speciality2));
+        // given
+        given(repository.findAll())
+            .willReturn(Arrays.asList(new Speciality("dogs"), new Speciality("cats")));
 
         // when
         Set<Speciality> specialities = service.findAll();
@@ -52,25 +47,24 @@ class SpecialitySDJpaServiceTest {
     @Test
     void findById() {
         Speciality speciality = new Speciality("dogs");
-        when(repository.findById(1L)).thenReturn(Optional.of(speciality));
+        given(repository.findById(1L)).willReturn(Optional.of(speciality));
 
         Speciality foundSpeciality = service.findById(1L);
+
         assertEquals("dogs", foundSpeciality.getDescription());
+        then(repository).should(times(1)).findById(anyLong());
     }
 
     @Test
     void delete() {
         Speciality speciality = new Speciality("dogs");
         service.delete(speciality);
-
-        verify(repository).delete(any(Speciality.class));
+        then(repository).should().delete(any(Speciality.class));
     }
 
     @Test
     void deleteById() {
         service.deleteById(1L);
-        service.deleteById(1L);
-        verify(repository, times(2)).deleteById(anyLong());
-        verify(repository, never()).deleteById(2L);
+        then(repository).should().deleteById(anyLong());
     }
 }
